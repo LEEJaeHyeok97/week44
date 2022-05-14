@@ -1,25 +1,23 @@
 import { Router } from "express";
-//import get from "./get";
-import post from "./post";
 
 const router = Router();
 
-let nextId = 4; // movies 변수에 id를 설정합니다
+let nextId = 4; // posts 변수에 id를 설정합니다
 
-let posts = [ // movies 배열
-  { // movies[0]
+let posts = [ // posts 배열
+  { // posts[0]
     id: 1,
     content: 'A',
     writer: 1,
   },
-  { // movies [1]
+  { // posts [1]
     id: 2,
-    content: 'Spider-man',
+    content: 'B',
     writer: 2,
   },
-  { // movies [2]
+  { // posts [2]
     id: 3,
-    content: 'Harry Potter',
+    content: 'C',
     writer: 3,
   },
 ];
@@ -28,7 +26,8 @@ let posts = [ // movies 배열
 // res - 서버에서 줄 값 (응답)
 //req - 서버가 요청 받은 값(요청)
 
-router.get("/s", (req, res) => {
+//개별 항목 조회
+router.get("/post", (req, res) => {
   const index = posts.findIndex(post => post.id === req.body.id);
   
   res.json({data: posts.filter(post => post.id === req.body.id)[0]});
@@ -36,18 +35,19 @@ router.get("/s", (req, res) => {
 //res.json({ data: { id: 1,}});
 
 
-router.get("/", (req, res) => {
+//글 목록(전체) 조회
+router.get("/posts", (req, res) => {
   //res.status(200).json(posts);
   res.json(posts);
 });
 
 
-router.post("/a", (req, res) => {
-  console.log(req.body);
+//글 생성
+router.post("/posts", (req, res) => {
   posts.push({
     id: nextId++,
     content: req.body.content,
-    writer: req.body.writer,
+    writer: req.body.id,
   });
   res.json(posts);
 });
@@ -56,7 +56,7 @@ router.post("/a", (req, res) => {
 
 
 //글 수정
-router.put("/put", (req, res) => {
+router.put("/posts", (req, res) => {
   const index = posts.findIndex(post => post.id === req.body.id);
   if(index === -1){
     return res.json({
@@ -67,12 +67,12 @@ router.put("/put", (req, res) => {
   posts[index] = {
     id: req.body.id,
     content: req.body.content,
-    writer: req.body.writer,
+    writer: req.body.id,
   };
   res.json(posts);
 })
 
-router.delete("/del", (req, res) => {
+router.delete("/posts", (req, res) => {
   posts = posts.filter(post => post.id !== req.body.id);
   res.json(posts);
 });

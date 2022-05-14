@@ -7,6 +7,7 @@ const port = 3000;
 app.use(express.json()); // id 를 넘겨주는 ...
 app.use("/api", api); // /api 
 
+
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
 });
